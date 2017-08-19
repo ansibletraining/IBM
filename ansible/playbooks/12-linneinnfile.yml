@@ -1,0 +1,6 @@
+- hosts: db2servers
+  tasks:
+    - name: Add a line
+      lineinfile:
+        path: /tmp/abc
+        line: 'Hello World'

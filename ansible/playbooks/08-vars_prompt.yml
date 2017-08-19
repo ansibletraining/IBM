@@ -1,0 +1,10 @@
+- hosts: all
+  vars_prompt:
+    - name: MYNAME
+      prompt: Hey , Enter the Course Name 
+      private: no
+      
+  tasks:
+    - name: Print vars_prompt
+      debug:
+        msg: "Welcome to {{MYNAME}}"

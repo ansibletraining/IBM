@@ -1,0 +1,12 @@
+- hosts: all
+#  become: yes
+  tasks:
+    - name: Create sample file
+      file:
+        path: /tmp/abc
+        state: touch
+    - name: Create sample file under /opt
+      file:
+        path: /opt/sample
+        state: touch
+      become: yes

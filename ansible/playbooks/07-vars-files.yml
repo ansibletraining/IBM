@@ -1,0 +1,7 @@
+- hosts: all
+  vars_files:
+    - vars-from-another-team.yml
+  tasks: 
+    - name: Print a variable
+      debug:
+        msg: "Value of MYNAME = {{ MYNAME }}"

@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  vars:
+    pack_name: httpd
+  tasks:
+    - name: Install httpd server
+      package:
+        name: httpd
+        state: latest
+      when: ansible_distribution == 'CentOS'
+
+    - name: Install apache2 server
+      package:
+        name: apache2
+        state: latest
+      when: ansible_distribution == 'Ubuntu'

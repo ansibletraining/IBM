@@ -1,0 +1,9 @@
+- hosts: all
+  become: yes
+  vars:
+    pack_name: httpd
+  tasks:
+    - name: Install web server
+      package:
+        name: apache2
+        state: latest

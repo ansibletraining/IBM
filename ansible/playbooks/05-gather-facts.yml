@@ -1,0 +1,6 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Print Something
+      debug:
+        msg: "Somthing"

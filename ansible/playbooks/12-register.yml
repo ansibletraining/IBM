@@ -1,0 +1,17 @@
+- hosts: db2servers
+  become: yes
+  tasks:
+    - name: Check fstab entry 
+      shell: grep /dbhome /etc/fstab
+      ignore_errors: yes
+      register: out
+
+    - name: Printn out variable
+      debug:
+        msg: "{{out}}"
+
+    - name: adding fstab entry
+      lineinfile:
+        path: /etc/fstab
+        line: /dev/sdb1 /dbhome ext3 defaults 0 0
+      when: out.rc != 0

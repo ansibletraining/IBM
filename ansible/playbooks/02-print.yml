@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - name: Checking Ping Responnse
+      ping: 
+
+    - name: Printing Sample Message
+      debug:
+        msg: "Hello Worlds"
+
+    - debug:
+        msg: "Hello New World"

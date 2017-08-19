@@ -1,0 +1,71 @@
+- hosts: db2servers
+  become: yes
+  vars:
+    DISK : "/dev/sdb"
+    DISK_NAME: "/dev/sdb1"
+    DBHOME: "/dbhome"
+
+
+  tasks:
+
+    - name: Create partition on {{DISK}}
+      parted:
+        device: "{{DISK}}"
+        number: 1
+        state: present
+
+    - name: Create file system
+      filesystem:
+        dev: "{{DISK_NAME}}"
+        fstype: ext3
+
+    - name: Create a directory
+      file:
+        path: "{{DBHOME}}"
+        state: directory
+
+    - name: Check fstab entries
+      shell: grep {{DBHOME}} /etc/fstab
+      ignore_errors: yes
+      register: out
+
+    - name: Add fstab entry 
+      lineinfile:
+        path: /etc/fstab
+        line: "{{DISK_NAME}} {{DBHOME}} ext3 defaults,noatime   0 0"
+      when: out.rc != 0
+
+    - name: Mount {{DBHOME}} mount point
+      mount:
+        path: "{{DBHOME}}"
+        src: "{{DISK_NAME}}"
+        fstype: ext3
+        state: mounted
+
+    - name: Delete kernel parameters
+      lineinfile:
+        path: /etc/sysctl.conf
+        regexp: "^{{item}}"
+        state: absent
+      with_items:
+        - kernel.shmmni
+
+    - name: Add kernel parameters
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: "{{item.name}}={{item.value}}"
+      with_items:
+        - {name: kernel.shmmni, value: 4096}
+
+
+
+
+
+
+
+
+
+
+
+
+
