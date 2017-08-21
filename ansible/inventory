@@ -2,3 +2,5 @@ node1
 node2
 [db2servers]
 node1
+[redhat]
+node1

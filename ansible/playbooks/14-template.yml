@@ -1,0 +1,20 @@
+- hosts: all
+  tasks:
+    - name: COpy a file
+      copy:
+        src: /tmp/abc
+        dest: /tmp/abc
+
+    - set_fact:
+        FOO: REDHAT
+      when: ansible_distribution == 'CentOS'
+
+    - set_fact:
+        FOO: UBUNTU
+      when: ansible_distribution == 'Ubuntu'
+
+
+    - name: Copy sample template
+      template:
+        src: files/sample.j2
+        dest: /tmp/sample.txt

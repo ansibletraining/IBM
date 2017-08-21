@@ -1,0 +1,10 @@
+- name: Copy some sample file
+  copy:
+    src: abc.txt
+    dest: /tmp/abc.txt
+  
+- name: Copy COnfigurationn
+  template:
+    src: httpd.conf.j2
+    dest: /tmp/httpd.conf
+  notify: restart Web Server

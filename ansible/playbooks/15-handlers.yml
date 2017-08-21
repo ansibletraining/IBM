@@ -1,0 +1,31 @@
+- hosts: all
+  become: yes
+  vars:
+    PORTNO: 8000
+  tasks:
+    - set_fact:
+        pack_name: httpd
+        serv_name: httpd
+      when: ansible_distribution == 'CentOS'
+
+    - set_fact:
+        pack_name: apache2
+        serv_name: apache2
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install web server
+      package:
+        name: "{{pack_name}}"
+        state: latest
+
+    - name: Copy configuration file
+      template:
+        src: files/httpd.conf.j2
+        dest: /tmp/httpd.conf
+      notify: Restart Web server
+
+  handlers:
+    - name: Restart Web server
+      service:
+        name: "{{serv_name}}"
+        state: restarted
